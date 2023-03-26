@@ -22,7 +22,7 @@ public class SaveGame {
 
     public void zipFiles(String a, String[] b, StringBuilder c) {
         try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(a))) {
-            c.append("Архив Zip.zip создан\n");
+            c.append("Архив Zip.zip создан\n\n");
             for (String x : b) {
                 FileInputStream fis = new FileInputStream(x);
                 ZipEntry entry = new ZipEntry(x);
@@ -32,17 +32,21 @@ public class SaveGame {
                 zout.write(buffer);
                 zout.closeEntry();
                 fis.close();
-                c.append("Файл ").append(c).append(" помещен в архив\n");
-                try {
-                    Files.delete(Paths.get(x));
-                    c.append("Исходный файл ").append(x).append(" удален\n\n");
-                }  catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
+                c.append("Файл ").append(x).append(" помещен в архив\n");
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
+        }
+    }
+
+    public void deleteFiles(String[] b, StringBuilder c){
+        for (String x : b) {
+            try {
+                Files.delete(Paths.get(x));
+                c.append("Исходный файл ").append(x).append(" удален\n");
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
         }
     }
 }
